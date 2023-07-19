@@ -7,6 +7,11 @@ import scrapy
 
 
 class ProductsCrawlerItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+    prod_id = scrapy.Field()
+    name = scrapy.Field()
+    url = scrapy.Field()
+    price = scrapy.Field()
+    image_urls = scrapy.Field()
+    images = scrapy.Field()
+    site = scrapy.Field()
     pass
