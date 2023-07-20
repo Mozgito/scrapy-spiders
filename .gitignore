@@ -2,8 +2,10 @@ __pycache__/
 *.py[cod]
 .idea
 /venv
+images/
 
 eggs/
 .eggs/
 *.egg-info/
 *.egg
+*.log
