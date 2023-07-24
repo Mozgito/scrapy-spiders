@@ -13,7 +13,6 @@ class SpiderJD(scrapy.Spider):
     }
     headers = {
         "accept-encoding": "gzip, deflate, br",
-        #"accept-language:": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7",
         "cache-control": "max-age=0",
         "upgrade-insecure-requests": "1",
         "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
@@ -40,7 +39,10 @@ class SpiderJD(scrapy.Spider):
                     }
                 )
 
-    def parse(self, response):
+    async def parse(self, response):
+        page = response.meta["playwright_page"]
+        await page.close()
+
         products = response.selector.xpath(".//div[@id='J_goodsList']/ul[@class='gl-warp clearfix']/"
                                            "li[@class='gl-item']")
         for product in products:
@@ -58,7 +60,9 @@ class SpiderJD(scrapy.Spider):
             item['url'] = f"https://item.jd.com/{product.xpath('@data-sku').get()}.html"
             item['price'] = product.xpath("./div/div[@class='p-price']/strong/i/text()").get()
             item['image_urls'] = [img_src]
-            item['site'] = 'jd.com'
+            item['site'] = 'JingDong'
+            item['type'] = 'bags'
+
             yield item
 
     async def errback(self, failure):

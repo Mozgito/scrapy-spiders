@@ -14,4 +14,5 @@ class ProductsCrawlerItem(scrapy.Item):
     image_urls = scrapy.Field()
     images = scrapy.Field()
     site = scrapy.Field()
+    type = scrapy.Field()
     pass

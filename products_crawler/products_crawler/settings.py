@@ -20,6 +20,11 @@ DOWNLOAD_HANDLERS = {
     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
 }
 
+# Define MongoDB uri
+MONGODB_URI = "mongodb://admin:password@localhost:27017"
+# Define MongoDB database
+MONGODB_DB = "products_crawler"
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "products_crawler (+http://www.yourdomain.com)"
 
@@ -32,9 +37,9 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 5
+DOWNLOAD_DELAY = 4
 # The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
+CONCURRENT_REQUESTS_PER_DOMAIN = 1
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
@@ -71,7 +76,9 @@ COOKIES_ENABLED = False
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     #"products_crawler.pipelines.ProductsCrawlerPipeline": 300,
-    "scrapy.pipelines.images.ImagesPipeline": 1,
+    "scrapy.pipelines.images.ImagesPipeline": 100,
+    "products_crawler.pipelines.DuplicatesPipeline": 90,
+    "products_crawler.pipelines.MongoPipeline": 200
 }
 
 IMAGES_STORE = "images"
@@ -82,12 +89,12 @@ IMAGES_MIN_WIDTH = 220
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 4
 # The maximum download delay to be set in case of high latencies
 AUTOTHROTTLE_MAX_DELAY = 45
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 1
 # Enable showing throttling stats for every response received:
 AUTOTHROTTLE_DEBUG = True
 
