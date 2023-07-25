@@ -15,6 +15,7 @@ NEWSPIDER_MODULE = "products_crawler.spiders"
 LOG_LEVEL = "ERROR"
 LOG_FILE = "logs/error.log"
 
+# Scrapy Playwright
 DOWNLOAD_HANDLERS = {
     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
@@ -24,9 +25,6 @@ DOWNLOAD_HANDLERS = {
 MONGODB_URI = "mongodb://admin:password@localhost:27017"
 # Define MongoDB database
 MONGODB_DB = "products_crawler"
-
-# Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "products_crawler (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -46,13 +44,7 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 1
 COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
-#TELNETCONSOLE_ENABLED = False
-
-# Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
-#    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-#    "Accept-Language": "en",
-#}
+TELNETCONSOLE_ENABLED = False
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
@@ -70,9 +62,9 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
-#EXTENSIONS = {
-#    "scrapy.extensions.telnet.TelnetConsole": None,
-#}
+EXTENSIONS = {
+    "scrapy.extensions.telnet.TelnetConsole": None,
+}
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
@@ -86,6 +78,7 @@ ITEM_PIPELINES = {
 IMAGES_STORE = "images"
 IMAGES_MIN_HEIGHT = 220
 IMAGES_MIN_WIDTH = 220
+MEDIA_ALLOW_REDIRECTS = True
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
