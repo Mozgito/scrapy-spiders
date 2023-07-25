@@ -11,19 +11,12 @@ class SpiderJD(scrapy.Spider):
     custom_settings = {
         "PLAYWRIGHT_LAUNCH_OPTIONS": {"headless": True}
     }
-    headers = {
-        "accept-encoding": "gzip, deflate, br",
-        "cache-control": "max-age=0",
-        "upgrade-insecure-requests": "1",
-        "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
-    }
 
     def start_requests(self):
         for url in self.urls:
             for page in range(1, 100):
                 yield Request(
                     url + "&page=" + str(page),
-                    headers=self.headers,
                     callback=self.parse,
                     method="GET",
                     dont_filter=True,

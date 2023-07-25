@@ -12,7 +12,7 @@ BOT_NAME = "products_crawler"
 SPIDER_MODULES = ["products_crawler.spiders"]
 NEWSPIDER_MODULE = "products_crawler.spiders"
 
-LOG_LEVEL = "INFO"
+LOG_LEVEL = "ERROR"
 LOG_FILE = "logs/error.log"
 
 DOWNLOAD_HANDLERS = {
@@ -62,9 +62,11 @@ COOKIES_ENABLED = False
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "products_crawler.middlewares.ProductsCrawlerDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    # "products_crawler.middlewares.ProductsCrawlerDownloaderMiddleware": 543,
+    "products_crawler.middlewares.UserAgentMiddleware": 100,
+    "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -96,7 +98,7 @@ AUTOTHROTTLE_MAX_DELAY = 45
 # each remote server
 AUTOTHROTTLE_TARGET_CONCURRENCY = 1
 # Enable showing throttling stats for every response received:
-AUTOTHROTTLE_DEBUG = True
+AUTOTHROTTLE_DEBUG = False
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings

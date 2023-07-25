@@ -2,7 +2,8 @@
 #
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-
+import logging
+import random
 from scrapy import signals
 
 # useful for handling different item types with a single interface
@@ -101,3 +102,47 @@ class ProductsCrawlerDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
+
+
+class UserAgentMiddleware(object):
+    os_types = {
+        'Windows': '(Windows NT 10.0; Win64; x64)',
+        'Linux': '(X11; Linux x86_64)',
+        'macOS': '(Macintosh; Intel Mac OS X 10_14_6)'
+    }
+    brands = [
+        "(Not(A:Brand",
+        " Not A;Brand",
+        "Not.A/Brand"
+    ]
+
+    def process_request(self, request, spider):
+        chrome_v1 = random.randint(55, 104)
+        chrome_v3 = random.randint(0, 3200)
+        chrome_v4 = random.randint(0, 100)
+        chrome_version = '{}.0.{}.{}'.format(chrome_v1, chrome_v3, chrome_v4)
+        os = random.choice(list(self.os_types.keys()))
+        brand = random.choice(self.brands)
+        brand_version = random.choice([8, 99])
+
+        request.headers['Accept-Encoding'] = "gzip, deflate, br"
+        request.headers['Accept-Language'] = 'zh-CN,zh;q=0.9,en;q=0.8;*;q=0.5'
+        request.headers['Cache-Control'] = 'max-age=0'
+        request.headers['Sec-Ch-Ua'] = '"{}";v="{}", "Chromium";v="{}", "Google Chrome";v="{}"' \
+            .format(brand, brand_version, chrome_v1, chrome_v1)
+        request.headers['Sec-CH-Ua-Full-Version'] = chrome_version
+        request.headers['Sec-Ch-Ua-Full-Version-List'] = '"{}";v="{}.0.0.0", "Chromium";v="{}", "Google Chrome";v="{}"'\
+            .format(brand, brand_version, chrome_version, chrome_version)
+        request.headers['Sec-Ch-Ua-Mobile'] = '?0'
+        request.headers['Sec-Ch-Ua-Platform'] = os
+        request.headers['Sec-Fetch-Dest'] = 'document'
+        request.headers['Sec-Fetch-Mode'] = 'navigate'
+        request.headers['Upgrade-Insecure-Requests'] = '1'
+        request.headers['User-Agent'] = ' '.join([
+            'Mozilla/5.0',
+            self.os_types[os],
+            'AppleWebKit/537.36',
+            '(KHTML, like Gecko)',
+            'Chrome/' + chrome_version,
+            'Safari/537.36'
+        ])

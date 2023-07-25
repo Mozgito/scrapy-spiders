@@ -21,7 +21,7 @@ class DuplicatesPipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         if adapter["prod_id"] in self.ids_seen:
-            raise DropItem(f"Duplicate item found: {adapter['prod_id']!r}")
+            raise DropItem(f"Duplicate item found: id={adapter['prod_id']}, url={adapter['url']!r}")
         else:
             self.ids_seen.add(adapter["prod_id"])
             return item
