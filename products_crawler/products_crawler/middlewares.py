@@ -113,7 +113,8 @@ class UserAgentMiddleware(object):
     brands = [
         "(Not(A:Brand",
         " Not A;Brand",
-        "Not.A/Brand"
+        "Not.A/Brand",
+        "Not/A)Brand"
     ]
 
     def process_request(self, request, spider):
