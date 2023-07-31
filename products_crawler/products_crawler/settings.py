@@ -22,9 +22,9 @@ DOWNLOAD_HANDLERS = {
 }
 
 # Define MongoDB uri
-MONGODB_URI = "mongodb://admin:password@localhost:27017"
+MONGODB_URI = "%env(MONGO_URL)%"
 # Define MongoDB database
-MONGODB_DB = "products_crawler"
+MONGODB_DB = "%env(MONGO_DB)%"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
