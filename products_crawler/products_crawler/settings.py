@@ -70,9 +70,9 @@ EXTENSIONS = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    #"products_crawler.pipelines.ProductsCrawlerPipeline": 300,
-    "scrapy.pipelines.images.ImagesPipeline": 100,
+    #"scrapy.pipelines.images.ImagesPipeline": 100,
     "products_crawler.pipelines.DuplicatesPipeline": 90,
+    "products_crawler.pipelines.CustomImageNamePipeline": 100,
     "products_crawler.pipelines.MongoPipeline": 200
 }
 

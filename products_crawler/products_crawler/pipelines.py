@@ -4,9 +4,12 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
+import hashlib
 import pymongo
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
+from scrapy.pipelines.images import ImagesPipeline
+from scrapy.utils.python import to_bytes
 
 
 class ProductsCrawlerPipeline:
@@ -25,6 +28,13 @@ class DuplicatesPipeline:
         else:
             self.ids_seen.add(adapter["prod_id"])
             return item
+
+
+class CustomImageNamePipeline(ImagesPipeline):
+    def file_path(self, request, response=None, info=None, *, item=None):
+        adapter = ItemAdapter(item)
+        image_guid = hashlib.sha1(to_bytes(request.url)).hexdigest()
+        return f"{adapter['type']}/{image_guid}.jpg"
 
 
 class MongoPipeline:
