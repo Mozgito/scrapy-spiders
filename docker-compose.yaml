@@ -1,16 +1,28 @@
 version: '3.8'
 
 services:
+  products_crawler:
+    build:
+      context: ./products_crawler
+      dockerfile: products_crawler/Dockerfile
+    container_name: products_crawler
+    environment:
+      - "TZ=Asia/Shanghai"
+      - "MONGODB_URI=mongodb://admin:password@mongo:27017"
+      - "MONGODB_DB=products_crawler"
+    volumes:
+      - ./products_crawler/:/products_crawler
+
   mongo:
-    image: mongo:6.0.8
+    image: mongo:4.4.23
     container_name: scrapy_spiders_mongo
     environment:
       - "TZ=Asia/Shanghai"
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
       - MONGO_INITDB_DATABASE=products_crawler
-    restart: always
     ports:
       - '27017:27017'
     volumes:
       - ./data:/data/db
+    restart: always

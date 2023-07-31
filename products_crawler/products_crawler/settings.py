@@ -12,7 +12,7 @@ BOT_NAME = "products_crawler"
 SPIDER_MODULES = ["products_crawler.spiders"]
 NEWSPIDER_MODULE = "products_crawler.spiders"
 
-LOG_LEVEL = "ERROR"
+LOG_LEVEL = "INFO"
 LOG_FILE = "logs/error.log"
 
 # Scrapy Playwright
@@ -22,9 +22,9 @@ DOWNLOAD_HANDLERS = {
 }
 
 # Define MongoDB uri
-MONGODB_URI = "mongodb://admin:password@localhost:27017"
+MONGODB_URI = "%env(MONGODB_URI)%"
 # Define MongoDB database
-MONGODB_DB = "products_crawler"
+MONGODB_DB = "%env(MONGODB_URI)%"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False

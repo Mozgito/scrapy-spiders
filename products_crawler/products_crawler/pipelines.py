@@ -36,7 +36,7 @@ class MongoPipeline:
     def from_crawler(cls, crawler):
         return cls(
             mongo_uri=crawler.settings.get("MONGODB_URI"),
-            mongo_db=crawler.settings.get("MONGODB_DB", "products_crawler")
+            mongo_db=crawler.settings.get("MONGODB_DB")
         )
 
     def open_spider(self, spider):
