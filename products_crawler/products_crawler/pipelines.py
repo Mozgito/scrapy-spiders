@@ -31,10 +31,9 @@ class DuplicatesPipeline:
 
 
 class CustomImageNamePipeline(ImagesPipeline):
-    def file_path(self, request, response=None, info=None, *, item=None):
-        adapter = ItemAdapter(item)
+    def file_path(self, request, response=None, info=None, item=None):
         image_guid = hashlib.sha1(to_bytes(request.url)).hexdigest()
-        return f"{adapter['type']}/{image_guid}.jpg"
+        return f"{item['type']}/{image_guid}.jpg"
 
 
 class MongoPipeline:

@@ -6,6 +6,10 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import os
+import dotenv
+
+dotenv.load_dotenv()
 
 BOT_NAME = "products_crawler"
 
@@ -22,9 +26,9 @@ DOWNLOAD_HANDLERS = {
 }
 
 # Define MongoDB uri
-MONGODB_URI = "%env(MONGO_URL)%"
+MONGODB_URI = os.environ["MONGO_URL"]
 # Define MongoDB database
-MONGODB_DB = "%env(MONGO_DB)%"
+MONGODB_DB = os.environ["MONGO_DB"]
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -87,7 +91,7 @@ AUTOTHROTTLE_ENABLED = True
 # The initial download delay
 AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
-AUTOTHROTTLE_MAX_DELAY = 45
+AUTOTHROTTLE_MAX_DELAY = 15
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
 AUTOTHROTTLE_TARGET_CONCURRENCY = 1

@@ -138,6 +138,7 @@ class UserAgentMiddleware(object):
         request.headers['Sec-Ch-Ua-Platform'] = os
         request.headers['Sec-Fetch-Dest'] = 'document'
         request.headers['Sec-Fetch-Mode'] = 'navigate'
+        request.headers['Sec-Fetch-User'] = '?1'
         request.headers['Upgrade-Insecure-Requests'] = '1'
         request.headers['User-Agent'] = ' '.join([
             'Mozilla/5.0',

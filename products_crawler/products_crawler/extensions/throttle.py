@@ -16,4 +16,4 @@ class AutoThrottleWithList(AutoThrottle):
         if res_domain in self.limit_list:
             super(AutoThrottleWithList, self)._adjust_delay(slot, latency, response)
         else:
-            slot.delay = 0.5
+            slot.delay = 1.5
