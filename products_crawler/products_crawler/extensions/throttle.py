@@ -1,3 +1,4 @@
+import random
 import re
 from scrapy.extensions.throttle import AutoThrottle
 
@@ -16,4 +17,4 @@ class AutoThrottleWithList(AutoThrottle):
         if res_domain in self.limit_list:
             super(AutoThrottleWithList, self)._adjust_delay(slot, latency, response)
         else:
-            slot.delay = 1.5
+            slot.delay = random.uniform(1.0, 1.7)

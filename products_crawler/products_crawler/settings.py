@@ -101,6 +101,7 @@ AUTOTHROTTLE_DEBUG = False
 LIMIT_DOMAINS = [
     "list.jd.com",
     "storage.jd.com",
+    "shopee.ph"
 ]
 
 # Enable and configure HTTP caching (disabled by default)
