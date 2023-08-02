@@ -11,6 +11,7 @@ class ProductsCrawlerItem(scrapy.Item):
     name = scrapy.Field()
     url = scrapy.Field()
     price = scrapy.Field()
+    currency = scrapy.Field()
     image_urls = scrapy.Field()
     images = scrapy.Field()
     site = scrapy.Field()
