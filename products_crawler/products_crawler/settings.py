@@ -81,8 +81,9 @@ ITEM_PIPELINES = {
 }
 
 IMAGES_STORE = "images"
-IMAGES_MIN_HEIGHT = 220
-IMAGES_MIN_WIDTH = 220
+IMAGES_MIN_HEIGHT = 200
+IMAGES_MIN_WIDTH = 200
+IMAGES_EXPIRES = 120
 MEDIA_ALLOW_REDIRECTS = True
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -101,7 +102,8 @@ AUTOTHROTTLE_DEBUG = False
 LIMIT_DOMAINS = [
     "list.jd.com",
     "storage.jd.com",
-    "shopee.ph"
+    "shopee.ph",
+    "www.lazada.com.ph"
 ]
 
 # Enable and configure HTTP caching (disabled by default)
