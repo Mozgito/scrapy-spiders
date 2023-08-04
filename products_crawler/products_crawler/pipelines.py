@@ -33,7 +33,7 @@ class DuplicatesPipeline:
 class CustomImageNamePipeline(ImagesPipeline):
     def file_path(self, request, response=None, info=None, item=None):
         image_guid = hashlib.sha1(to_bytes(request.url)).hexdigest()
-        return f"{item['type']}/{image_guid}.jpg"
+        return f"{item['type']}/{item['site']}/{image_guid}.jpg"
 
 
 class MongoPipeline:
