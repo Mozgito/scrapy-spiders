@@ -126,7 +126,7 @@ class UserAgentMiddleware(object):
         brand = random.choice(self.brands)
         brand_version = random.choice([8, 99])
 
-        request.headers['Accept-Encoding'] = "gzip, deflate, br"
+        request.headers['Accept-Encoding'] = 'gzip, deflate, br'
         request.headers['Accept-Language'] = 'zh-CN,zh;q=0.9,en;q=0.8;*;q=0.5'
         request.headers['Cache-Control'] = 'max-age=0'
         request.headers['Sec-Ch-Ua'] = '"{}";v="{}", "Chromium";v="{}", "Google Chrome";v="{}"' \
@@ -138,6 +138,7 @@ class UserAgentMiddleware(object):
         request.headers['Sec-Ch-Ua-Platform'] = os
         request.headers['Sec-Fetch-Dest'] = 'document'
         request.headers['Sec-Fetch-Mode'] = 'navigate'
+        request.headers['Sec-Fetch-Site'] = 'same-origin'
         request.headers['Sec-Fetch-User'] = '?1'
         request.headers['Upgrade-Insecure-Requests'] = '1'
         request.headers['User-Agent'] = ' '.join([
@@ -148,3 +149,11 @@ class UserAgentMiddleware(object):
             'Chrome/' + chrome_version,
             'Safari/537.36'
         ])
+
+        if 'amazon.com' in request.url:
+            request.headers['Accept-Language'] = 'en-US,en;q=0.9'
+            request.headers['Cache-Control'] = 'no-cache'
+            request.headers['Pragma'] = 'no-cache'
+            request.headers['Referer'] = 'https://www.google.com/'
+            request.headers['Sec-Fetch-Dest'] = 'empty'
+            request.headers['Sec-Fetch-Mode'] = 'cors'

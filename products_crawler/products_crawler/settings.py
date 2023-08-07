@@ -82,7 +82,7 @@ ITEM_PIPELINES = {
 
 IMAGES_STORE = "images"
 IMAGES_MIN_HEIGHT = 200
-IMAGES_MIN_WIDTH = 200
+IMAGES_MIN_WIDTH = 196
 IMAGES_EXPIRES = 120
 MEDIA_ALLOW_REDIRECTS = True
 
@@ -103,7 +103,8 @@ LIMIT_DOMAINS = [
     "list.jd.com",
     "storage.jd.com",
     "shopee.ph",
-    "www.lazada.com.ph"
+    "www.lazada.com.ph",
+    "www.amazon.com"
 ]
 
 # Enable and configure HTTP caching (disabled by default)
