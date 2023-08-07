@@ -44,7 +44,6 @@ class SpiderLazada(scrapy.Spider):
         json_body = re.search(r'(\{"templates".*?)</pre></body></html>', response.text).group(1)
         next_page = int(json.loads(json_body)['mainInfo']['page']) + 1
         total_pages = int(json.loads(json_body)['mainInfo']['pageSize'])
-        new_url = re.search(r"(https.*&page=)", response.url).group(1)
         products = json.loads(json_body)['mods']['listItems']
 
         for product in products:
@@ -64,6 +63,7 @@ class SpiderLazada(scrapy.Spider):
             yield item
 
         if next_page <= total_pages and next_page <= 20:
+            new_url = re.search(r"(https.*&page=)", response.url).group(1)
             yield Request(
                 new_url + str(next_page),
                 callback=self.parse,
