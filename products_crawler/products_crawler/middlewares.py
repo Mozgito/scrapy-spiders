@@ -157,3 +157,10 @@ class UserAgentMiddleware(object):
             request.headers['Referer'] = 'https://www.google.com/'
             request.headers['Sec-Fetch-Dest'] = 'empty'
             request.headers['Sec-Fetch-Mode'] = 'cors'
+
+        if 'shopee.ph' in request.url:
+            request.headers['Accept-Language'] = 'en-US,en;q=0.9'
+            request.headers['Referer'] = 'https://shopee.ph/'
+            request.headers['X-Api-Source'] = 'pc'
+            request.headers['X-Requested-With'] = 'XMLHttpRequest'
+            request.headers['X-Shopee-Language'] = 'en'
