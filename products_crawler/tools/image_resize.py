@@ -4,12 +4,12 @@ import os
 from pathlib import Path
 
 
-def resize_image_to_400px(image_path: str) -> None:
+def resize_image(image_path: str, size: int) -> None:
     img = cv.imread(image_path, cv.IMREAD_COLOR)
     height = img.shape[0]
     width = img.shape[1]
-    preferred_height = 400
-    preferred_width = 400
+    preferred_height = size
+    preferred_width = size
     pad_top = 0
     pad_bot = 0
     pad_left = 0
@@ -17,15 +17,15 @@ def resize_image_to_400px(image_path: str) -> None:
 
     if height > width:
         preferred_width = round(preferred_height / height * width)
-        pad_left = math.floor((400 - preferred_width) / 2)
-        pad_right = math.ceil((400 - preferred_width) / 2)
+        pad_left = math.floor((size - preferred_width) / 2)
+        pad_right = math.ceil((size - preferred_width) / 2)
 
     if height < width:
         preferred_height = round(preferred_width / width * height)
-        pad_top = math.floor((400 - preferred_height) / 2)
-        pad_bot = math.ceil((400 - preferred_height) / 2)
+        pad_top = math.floor((size - preferred_height) / 2)
+        pad_bot = math.ceil((size - preferred_height) / 2)
 
-    if height != 400 and width != 400:
+    if height != size or width != size:
         img_new = cv.resize(img, (preferred_width, preferred_height))
         img_new_padded = cv.copyMakeBorder(
             img_new,
@@ -43,9 +43,13 @@ def resize_image_to_400px(image_path: str) -> None:
 
 if __name__ == "__main__":
     images_path = str(Path(os.path.abspath(__file__)).parent.parent.absolute()) + "/images/bags/"
+    sites = os.listdir(images_path)
 
-    for image in os.listdir(images_path):
-        abs_image_path = os.path.join(images_path, image)
-
-        if os.path.isfile(abs_image_path):
-            resize_image_to_400px(abs_image_path)
+    for site in sites:
+        for image in os.listdir(images_path + site):
+            abs_image_path = os.path.join(images_path, site, image)
+            if os.path.isfile(abs_image_path):
+                if site in ['Lazada', 'Shopee']:
+                    resize_image(abs_image_path, 700)
+                else:
+                    resize_image(abs_image_path, 350)
