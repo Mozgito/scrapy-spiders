@@ -46,9 +46,9 @@ async def errback(failure):
 class SpiderAmazon(scrapy.Spider):
     name = "spider_amzn"
     urls = [
-        "https://www.amazon.com/s?k=PU+Leather+bag&i=fashion-womens-handbags&rh=n%3A16977746011",
-        "https://www.amazon.com/s?k=PU+leather+bag&i=fashion-womens-handbags&rh=n%3A2475901011"
-        "https://www.amazon.com/s?k=PU+leather+bag&i=fashion-womens-handbags&rh=n%3A3421075011"
+        "https://www.amazon.com/s?k=PU+Leather+bag&i=fashion-womens-handbags&rh=n%3A3421075011",
+        "https://www.amazon.com/s?k=PU+leather+bag&i=fashion-womens-handbags&rh=n%3A2475901011",
+        "https://www.amazon.com/s?k=PU+leather+bag&i=fashion-womens-handbags&rh=n%3A7141123011"
     ]
     custom_settings = {
         "PLAYWRIGHT_ABORT_REQUEST": abort_request,
@@ -93,17 +93,17 @@ class SpiderAmazon(scrapy.Spider):
             item['prod_id'] = product.xpath("./@data-csa-c-item-id").get()
             item['name'] = product.xpath("./div/div/div[2]/div[1]/h2/a/span/text()").get()
             item['url'] = "https://www.amazon.com" \
-                          + re.search(r"(.*?)/ref=", product.xpath("./div/div/div[1]/span/a/@href").get()).group(1)
+                          + re.search(r"(.*?)/ref=", product.xpath(".//a[@class='a-link-normal s-no-outline']/@href").get()).group(1)
             item['price'] = product.xpath("./div/div/div[2]/div[3]/div[1]/a/span[@class='a-price']"
                                           "/span[@class='a-offscreen']/text()").get()[1:]
             item['currency'] = 'USD'
-            item['image_urls'] = [product.xpath("./div/div/div[1]/span/a/div/img/@src").get()]
+            item['image_urls'] = [product.xpath(".//a[@class='a-link-normal s-no-outline']/div/img/@src").get()]
             item['site'] = 'Amazon'
             item['type'] = 'bags'
 
             yield item
 
-        if next_page <= total_pages and next_page <= 10:
+        if next_page <= total_pages and next_page <= 25:
             yield Request(
                 "{}&qid={}&page={}&ref=sr_pg_{}".format(new_url, int(time.time()), next_page, next_page),
                 callback=self.parse,

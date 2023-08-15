@@ -4,17 +4,37 @@ from scrapy import Request
 from scrapy_playwright.page import PageMethod
 from ..items import ProductsCrawlerItem
 
+BLOCK_RESOURCE_TYPES = [
+    "font",
+    "script",
+    "xhr",
+]
+
+
+def abort_request(request):
+    if request.method.lower() == "post" or \
+            any(key in request.resource_type for key in BLOCK_RESOURCE_TYPES):
+        return True
+
+    return False
+
 
 class SpiderJD(scrapy.Spider):
     name = "spider_jd"
-    urls = ["https://list.jd.com/list.html?cat=1672%2C2575%2C5259"]
+    urls = [
+        "https://list.jd.com/list.html?cat=1672%2C2575%2C5257&ev=3237_165509%5E",
+        "https://list.jd.com/list.html?cat=1672%2C2575%2C5259&ev=3237_165509%5E",
+        "https://list.jd.com/list.html?cat=1672%2C2575%2C5260&ev=3237_165509%5E"
+        # "https://list.jd.com/list.html?cat=1672%2C2575%2C5258&ev=3237_165509%5E",
+    ]
     custom_settings = {
+        "PLAYWRIGHT_ABORT_REQUEST": abort_request,
         "PLAYWRIGHT_LAUNCH_OPTIONS": {"headless": True}
     }
 
     def start_requests(self):
         for url in self.urls:
-            for page in range(1, 100):
+            for page in range(1, 60):
                 yield Request(
                     url + "&page=" + str(page),
                     callback=self.parse,
@@ -25,8 +45,6 @@ class SpiderJD(scrapy.Spider):
                         "playwright_include_page": True,
                         "playwright_page_methods": [
                             PageMethod("wait_for_selector", "li.gl-item"),
-                            PageMethod("evaluate", "window.scrollBy(0, document.body.scrollHeight)"),
-                            PageMethod("wait_for_selector", "li.gl-item:nth-child(60)"),
                         ],
                         "errback": self.errback
                     }

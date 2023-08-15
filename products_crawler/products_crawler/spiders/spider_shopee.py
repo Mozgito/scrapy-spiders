@@ -19,7 +19,7 @@ class SpiderShopee(scrapy.Spider):
         # "https://shopee.ph/api/v4/recommend/recommend?bundle=category_landing_page&cat_level=2&catid=11021954"
     ]
     custom_settings = {
-        "PLAYWRIGHT_LAUNCH_OPTIONS": {"headless": False}
+        "PLAYWRIGHT_LAUNCH_OPTIONS": {"headless": True}
     }
     meta = {
         "playwright": True,

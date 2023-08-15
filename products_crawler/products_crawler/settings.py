@@ -82,8 +82,8 @@ ITEM_PIPELINES = {
 
 IMAGES_STORE = "images"
 IMAGES_MIN_HEIGHT = 200
-IMAGES_MIN_WIDTH = 196
-IMAGES_EXPIRES = 120
+IMAGES_MIN_WIDTH = 190
+IMAGES_EXPIRES = 180
 MEDIA_ALLOW_REDIRECTS = True
 
 # Enable and configure the AutoThrottle extension (disabled by default)
