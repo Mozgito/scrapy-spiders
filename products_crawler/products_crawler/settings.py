@@ -104,7 +104,8 @@ LIMIT_DOMAINS = [
     "storage.jd.com",
     "shopee.ph",
     "www.lazada.com.ph",
-    "www.amazon.com"
+    "www.amazon.com",
+    "ph.shein.com"
 ]
 
 # Enable and configure HTTP caching (disabled by default)
