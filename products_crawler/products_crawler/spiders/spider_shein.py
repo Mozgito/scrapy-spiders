@@ -94,14 +94,14 @@ class SpiderShein(scrapy.Spider):
 
         for product in products:
             item = ProductsCrawlerItem()
-            item['prod_id'] = product.xpath(".//a[@class='S-product-item__img-container j-expose__product-item-img']/@data-id").get()
-            item['name'] = product.xpath(".//a[@class='S-product-item__img-container j-expose__product-item-img']/@data-title").get()
-            item['url'] = "https://ph.shein.com" + re.search(r"(.*?\.html)\?", product.xpath(".//a[@class='S-product-item__img-container j-expose__product-item-img']/@href").get()).group(1)
+            item['prod_id'] = product.xpath("./div[@class='S-product-item__wrapper']/a/@data-id").get()
+            item['name'] = product.xpath("./div[@class='S-product-item__wrapper']/a/@data-title").get()
+            item['url'] = "https://ph.shein.com" + re.search(r"(.*?\.html)\?", product.xpath("./div[@class='S-product-item__wrapper']/a/@href").get()).group(1)
             item['price'] = product.xpath(".//span[@class='normal-price-ctn__sale-price normal-price-ctn__sale-price_discount']/@aria-label").get()[6:]
             item['currency'] = 'PHP'
-            item['image_urls'] = ["https:" + product.xpath(".//img[@class='lazyload fsp-element']/@data-src").get()]
-            if product.xpath(".//img[@class='lazyload S-product-item__img-submain image-fade-out']").get():
-                item['image_urls'].append("https:" + product.xpath(".//img[@class='lazyload S-product-item__img-submain image-fade-out']/@data-src").get())
+            item['image_urls'] = ["https:" + product.xpath("./div[@class='S-product-item__wrapper']/a/div[1]/@data-before-crop-src").get()]
+            if product.xpath("./div[@class='S-product-item__wrapper']/a/div[2]/div").get():
+                item['image_urls'].append("https:" + product.xpath("./div[@class='S-product-item__wrapper']/a/div[2]/div/@data-before-crop-src").get())
             item['site'] = 'Shein'
             item['type'] = 'bags'
 
