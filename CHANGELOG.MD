@@ -1,6 +1,8 @@
 ## Release Notes
 
 ### Latest Changes
+* Add url selector and max pages count arguments to spiders
+* Saving prices as int or float
 
 ### 1.4.4
 * Shein scraper

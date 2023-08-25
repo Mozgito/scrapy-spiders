@@ -36,6 +36,11 @@ class SpiderShopee(scrapy.Spider):
     non_url_safe_regex = re.compile(
         r'[{}]'.format(''.join(re.escape(x) for x in non_url_safe)))
 
+    def __init__(self, url_number=None, *args, **kwargs):
+        super(SpiderShopee, self).__init__(*args, **kwargs)
+        if url_number is not None:
+            self.urls = [self.urls[int(url_number)]]
+
     def start_requests(self):
         for url in self.urls:
             yield Request(

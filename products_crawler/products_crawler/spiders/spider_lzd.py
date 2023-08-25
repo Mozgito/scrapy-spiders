@@ -27,6 +27,12 @@ class SpiderLazada(scrapy.Spider):
         "errback": errback
     }
 
+    def __init__(self, url_number=None, pages=1, *args, **kwargs):
+        super(SpiderLazada, self).__init__(*args, **kwargs)
+        self.pages = int(pages)
+        if url_number is not None:
+            self.urls = [self.urls[int(url_number)]]
+
     def start_requests(self):
         for url in self.urls:
             yield Request(
@@ -62,7 +68,7 @@ class SpiderLazada(scrapy.Spider):
 
             yield item
 
-        if next_page <= total_pages and next_page <= 20:
+        if next_page <= total_pages and next_page <= self.pages:
             new_url = re.search(r"(https.*&page=)", response.url).group(1)
             yield Request(
                 new_url + str(next_page),

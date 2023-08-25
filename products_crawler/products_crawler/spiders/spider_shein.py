@@ -63,6 +63,12 @@ class SpiderShein(scrapy.Spider):
         "errback": errback
     }
 
+    def __init__(self, url_number=None, pages=1, *args, **kwargs):
+        super(SpiderShein, self).__init__(*args, **kwargs)
+        self.pages = int(pages)
+        if url_number is not None:
+            self.urls = [self.urls[int(url_number)]]
+
     def start_requests(self):
         for url in self.urls:
             yield Request(
@@ -101,7 +107,7 @@ class SpiderShein(scrapy.Spider):
 
             yield item
 
-        if next_page <= total_pages and next_page <= 10:
+        if next_page <= total_pages and next_page <= self.pages:
             yield Request(
                 new_url + str(next_page),
                 callback=self.parse,

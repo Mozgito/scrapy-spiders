@@ -12,6 +12,13 @@ from scrapy.pipelines.images import ImagesPipeline
 from scrapy.utils.python import to_bytes
 
 
+def str_to_number(str_price) -> [int, float]:
+    if '.' in str_price and str_price.rsplit('.', 1)[1].lower() not in ["0", "00"]:
+        return float(str_price)
+
+    return int(float(str_price))
+
+
 class ProductsCrawlerPipeline:
     def process_item(self, item, spider):
         return item
@@ -57,12 +64,17 @@ class MongoPipeline:
 
     def process_item(self, item, spider):
         try:
+            if isinstance(item["price"], str):
+                item["price"] = str_to_number(item["price"])
+
             item_as_dict = ItemAdapter(item).asdict()
+
             if self.db[item["type"]].find_one_and_update(
                     {"prod_id": item_as_dict["prod_id"], "site": item_as_dict["site"]},
                     {"$set": item_as_dict}
             ) is None:
                 self.db[item["type"]].insert_one(item_as_dict)
+
             return item
         except Exception as err:
             pass

@@ -19,6 +19,11 @@ def abort_request(request):
     return False
 
 
+async def errback(failure):
+    page = failure.request.meta["playwright_page"]
+    await page.close()
+
+
 class SpiderJD(scrapy.Spider):
     name = "spider_jd"
     urls = [
@@ -32,9 +37,15 @@ class SpiderJD(scrapy.Spider):
         "PLAYWRIGHT_LAUNCH_OPTIONS": {"headless": True}
     }
 
+    def __init__(self, url_number=None, pages=2, *args, **kwargs):
+        super(SpiderJD, self).__init__(*args, **kwargs)
+        self.pages = int(pages)
+        if url_number is not None:
+            self.urls = [self.urls[int(url_number)]]
+
     def start_requests(self):
         for url in self.urls:
-            for page in range(1, 60):
+            for page in range(1, self.pages):
                 yield Request(
                     url + "&page=" + str(page),
                     callback=self.parse,
@@ -46,7 +57,7 @@ class SpiderJD(scrapy.Spider):
                         "playwright_page_methods": [
                             PageMethod("wait_for_selector", "li.gl-item"),
                         ],
-                        "errback": self.errback
+                        "errback": errback
                     }
                 )
 
@@ -76,7 +87,3 @@ class SpiderJD(scrapy.Spider):
             item['type'] = 'bags'
 
             yield item
-
-    async def errback(self, failure):
-        page = failure.request.meta["playwright_page"]
-        await page.close()

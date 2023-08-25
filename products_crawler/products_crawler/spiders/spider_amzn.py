@@ -63,6 +63,12 @@ class SpiderAmazon(scrapy.Spider):
         "errback": errback
     }
 
+    def __init__(self, url_number=None, pages=1, *args, **kwargs):
+        super(SpiderAmazon, self).__init__(*args, **kwargs)
+        self.pages = int(pages)
+        if url_number is not None:
+            self.urls = [self.urls[int(url_number)]]
+
     def start_requests(self):
         for url in self.urls:
             yield Request(
@@ -95,7 +101,7 @@ class SpiderAmazon(scrapy.Spider):
             item['url'] = "https://www.amazon.com" \
                           + re.search(r"(.*?)/ref=", product.xpath(".//a[@class='a-link-normal s-no-outline']/@href").get()).group(1)
             item['price'] = product.xpath("./div/div/div[2]/div[3]/div[1]/a/span[@class='a-price']"
-                                          "/span[@class='a-offscreen']/text()").get()[1:]
+                                          "/span[@class='a-offscreen']/text()").get()[1:].replace(',', '')
             item['currency'] = 'USD'
             item['image_urls'] = [product.xpath(".//a[@class='a-link-normal s-no-outline']/div/img/@src").get()]
             item['site'] = 'Amazon'
@@ -103,7 +109,7 @@ class SpiderAmazon(scrapy.Spider):
 
             yield item
 
-        if next_page <= total_pages and next_page <= 25:
+        if next_page <= total_pages and next_page <= self.pages:
             yield Request(
                 "{}&qid={}&page={}&ref=sr_pg_{}".format(new_url, int(time.time()), next_page, next_page),
                 callback=self.parse,
