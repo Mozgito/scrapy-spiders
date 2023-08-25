@@ -70,7 +70,7 @@ class SpiderJD(scrapy.Spider):
                 .replace('\n', '').replace('\t', '')
             item['url'] = f"https://item.jd.com/{product.xpath('@data-sku').get()}.html"
             item['price'] = product.xpath("./div/div[@class='p-price']/strong/i/text()").get()
-            item['currency'] = 'RMB'
+            item['currency'] = 'CNY'
             item['image_urls'] = [img_src]
             item['site'] = 'JingDong'
             item['type'] = 'bags'
