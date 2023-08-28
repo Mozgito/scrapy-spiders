@@ -5,7 +5,8 @@ __pycache__/
 images/
 data/
 .env
-
+/products_crawler/cron/*.sh
+!/products_crawler/cron/example.sh
 eggs/
 .eggs/
 *.egg-info/

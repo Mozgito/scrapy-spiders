@@ -3,7 +3,7 @@
 # scrapy-spiders
 Playwright Scrapy app for scraping products and their images 
 for further finding similar products by photo.
-Images are stored in directory of project and product data stored in MongoDB.
+Images are stored in directory of project and product data is stored in MongoDB.
 ### Features
 * MongoDB runs in docker container. Scrapy spiders run in regular/virtual environment.
 * Scrapy items have `type` field that will be a `collection name` in DB and a `directory name` for images.
@@ -12,6 +12,10 @@ Images are stored in directory of project and product data stored in MongoDB.
 * Image cleaner tool to keep image data consistent with product database.
 * MongoDB 4.4 used for compatibility with servers that don't support AVX. 
 Anyway version can be changed to the most fresh 6 or 7. Dump and restore work fine.
+* Spiders can be set on CRON: `0 5 * * * sh /path_to_cron_example.sh 0 20`, 
+so as image tools `0 6 * * * python /path_to/products_crawler/tools/image_cleaner.py` 
+and `30 6 * * * python /path_to/products_crawler/tools/image_resize.py`
+Example of spider sh file is here `products_crawler/cron/example.sh`
 ### First-time setup
 1. Set Mongo connection data in `.env`
 2. Install dependencies with `pip install -r requirements.txt`
@@ -19,6 +23,5 @@ Anyway version can be changed to the most fresh 6 or 7. Dump and restore work fi
 4. Build and start MongoDB `docker compose up -d`
 5. Run spider
 ### TODO
-- [ ] CRON example
 - [ ] DB indexes
 - [ ] Proxy
