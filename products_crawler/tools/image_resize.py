@@ -49,7 +49,7 @@ if __name__ == "__main__":
         for image in os.listdir(images_path + site):
             abs_image_path = os.path.join(images_path, site, image)
             if os.path.isfile(abs_image_path):
-                if site in ['Lazada', 'Shopee']:
+                if site in ['Lazada', 'Shopee', 'Temu']:
                     resize_image(abs_image_path, 700)
                 else:
                     resize_image(abs_image_path, 350)

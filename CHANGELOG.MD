@@ -4,6 +4,7 @@
 * Add url selector and max pages count arguments to spiders
 * Saving prices as int or float
 * Add CRON example
+* Temu scraper
 
 ### 1.4.4
 * Shein scraper

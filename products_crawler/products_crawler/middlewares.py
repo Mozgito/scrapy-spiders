@@ -114,7 +114,8 @@ class UserAgentMiddleware(object):
         "(Not(A:Brand",
         " Not A;Brand",
         "Not.A/Brand",
-        "Not/A)Brand"
+        "Not/A)Brand",
+        "Not)A;Brand"
     ]
 
     def process_request(self, request, spider):
@@ -124,7 +125,7 @@ class UserAgentMiddleware(object):
         chrome_version = '{}.0.{}.{}'.format(chrome_v1, chrome_v3, chrome_v4)
         os = random.choice(list(self.os_types.keys()))
         brand = random.choice(self.brands)
-        brand_version = random.choice([8, 99])
+        brand_version = random.choice([8, 99, 24])
 
         request.headers['Accept-Encoding'] = 'gzip, deflate, br'
         request.headers['Accept-Language'] = 'zh-CN,zh;q=0.9,en;q=0.8;*;q=0.5'
@@ -164,3 +165,9 @@ class UserAgentMiddleware(object):
             request.headers['X-Api-Source'] = 'pc'
             request.headers['X-Requested-With'] = 'XMLHttpRequest'
             request.headers['X-Shopee-Language'] = 'en'
+
+        if 'temu.com' in request.url:
+            request.headers['Accept-Language'] = 'en-US,en;q=0.9'
+            request.headers['Cache-Control'] = 'no-cache'
+            request.headers['Pragma'] = 'no-cache'
+            request.headers['Referer'] = 'https://www.temu.com/'

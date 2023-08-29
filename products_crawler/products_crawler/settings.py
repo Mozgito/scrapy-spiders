@@ -74,7 +74,7 @@ EXTENSIONS = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    #"scrapy.pipelines.images.ImagesPipeline": 100,
+    # "scrapy.pipelines.images.ImagesPipeline": 100,
     "products_crawler.pipelines.DuplicatesPipeline": 90,
     "products_crawler.pipelines.CustomImageNamePipeline": 100,
     "products_crawler.pipelines.MongoPipeline": 200
@@ -105,7 +105,8 @@ LIMIT_DOMAINS = [
     "shopee.ph",
     "www.lazada.com.ph",
     "www.amazon.com",
-    "ph.shein.com"
+    "ph.shein.com",
+    "temu.com"
 ]
 
 # Enable and configure HTTP caching (disabled by default)
