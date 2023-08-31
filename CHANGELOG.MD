@@ -5,6 +5,8 @@
 * Saving prices as int or float
 * Add CRON example
 * Temu scraper
+* Add excluded product ids list
+* Spiders improvements
 
 ### 1.4.4
 * Shein scraper

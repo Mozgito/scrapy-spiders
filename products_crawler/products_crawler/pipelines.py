@@ -31,7 +31,7 @@ class DuplicatesPipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         if adapter["prod_id"] in self.ids_seen:
-            raise DropItem(f"Duplicate item found: id={adapter['prod_id']}, url={adapter['url']!r}")
+            raise DropItem(f"Duplicate item found: {item!r}")
         else:
             self.ids_seen.add(adapter["prod_id"])
             return item
@@ -44,15 +44,17 @@ class CustomImageNamePipeline(ImagesPipeline):
 
 
 class MongoPipeline:
-    def __init__(self, mongo_uri, mongo_db):
+    def __init__(self, mongo_uri, mongo_db, exclude_ids):
         self.mongo_uri = mongo_uri
         self.mongo_db = mongo_db
+        self.exclude_ids = exclude_ids
 
     @classmethod
     def from_crawler(cls, crawler):
         return cls(
             mongo_uri=crawler.settings.get("MONGODB_URI"),
-            mongo_db=crawler.settings.get("MONGODB_DB", "products_crawler")
+            mongo_db=crawler.settings.get("MONGODB_DB", "products_crawler"),
+            exclude_ids=crawler.settings.get("EXCLUDE_PRODUCTS")
         )
 
     def open_spider(self, spider):
@@ -69,12 +71,17 @@ class MongoPipeline:
 
             item_as_dict = ItemAdapter(item).asdict()
 
-            if self.db[item["type"]].find_one_and_update(
-                    {"prod_id": item_as_dict["prod_id"], "site": item_as_dict["site"]},
-                    {"$set": item_as_dict}
-            ) is None:
-                self.db[item["type"]].insert_one(item_as_dict)
+            if item["prod_id"] in self.exclude_ids[item["type"]][item["site"]]:
+                raise DropItem(f"Item is in Exclude list {item!r}")
+            elif len(item["image_urls"]) == 0:
+                raise DropItem(f"Item has no images {item!r}")
+            else:
+                if self.db[item["type"]].find_one_and_update(
+                        {"prod_id": item["prod_id"], "site": item["site"]},
+                        {"$set": item_as_dict}
+                ) is None:
+                    self.db[item["type"]].insert_one(item_as_dict)
 
-            return item
+                return item
         except Exception as err:
             pass

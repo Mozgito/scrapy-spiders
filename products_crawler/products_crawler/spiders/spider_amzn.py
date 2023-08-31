@@ -92,16 +92,21 @@ class SpiderAmazon(scrapy.Spider):
 
         for product in products:
             if product.xpath("./div[@data-component-type='s-impression-logger']").get() is not None or \
-                    product.xpath("./div/div/div[2]/div[3]/div[1]/a/span[@class='a-price']").get() is None:
+                    product.xpath("./div/div/div[2]/"
+                                  "div[@class='a-section a-spacing-none a-spacing-top-small s-price-instructions-style']/"
+                                  "div[1]/a/span[@class='a-price']").get() is None:
                 continue
 
             item = ProductsCrawlerItem()
             item['prod_id'] = product.xpath("./@data-csa-c-item-id").get()
-            item['name'] = product.xpath("./div/div/div[2]/div[1]/h2/a/span/text()").get()
+            item['name'] = product.xpath("./div/div/div[2]/"
+                                         "div[@class='a-section a-spacing-none a-spacing-top-small s-title-instructions-style']/"
+                                         "h2/a/span/text()").get()
             item['url'] = "https://www.amazon.com" \
                           + re.search(r"(.*?)/ref=", product.xpath(".//a[@class='a-link-normal s-no-outline']/@href").get()).group(1)
-            item['price'] = product.xpath("./div/div/div[2]/div[3]/div[1]/a/span[@class='a-price']"
-                                          "/span[@class='a-offscreen']/text()").get()[1:].replace(',', '')
+            item['price'] = product.xpath("./div/div/div[2]/"
+                                          "div[@class='a-section a-spacing-none a-spacing-top-small s-price-instructions-style']/"
+                                          "div[1]/a/span[@class='a-price']/span[@class='a-offscreen']/text()").get()[1:].replace(',', '')
             item['currency'] = 'USD'
             item['image_urls'] = [product.xpath(".//a[@class='a-link-normal s-no-outline']/div/img/@src").get()]
             item['site'] = 'Amazon'
