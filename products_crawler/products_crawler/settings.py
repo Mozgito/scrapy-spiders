@@ -26,6 +26,10 @@ DOWNLOAD_HANDLERS = {
     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
 }
 
+# Proxy
+SCRAPEOPS_API_KEY = os.environ["SCRAPEOPS_APIKEY"]
+SCRAPEOPS_PROXY_ENABLED = False
+
 # Define MongoDB uri
 MONGODB_URI = os.environ["MONGO_URL"]
 # Define MongoDB database
@@ -62,20 +66,25 @@ TELNETCONSOLE_ENABLED = False
 DOWNLOADER_MIDDLEWARES = {
     # "products_crawler.middlewares.ProductsCrawlerDownloaderMiddleware": 543,
     "products_crawler.middlewares.UserAgentMiddleware": 100,
-    "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None
+    "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None,
+    "scrapeops_scrapy.middleware.retry.RetryMiddleware": 550,
+    "scrapy.downloadermiddlewares.retry.RetryMiddleware": None,
+    "products_crawler.middlewares.ScrapeOpsProxyMiddleware": 725
 }
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 EXTENSIONS = {
     "scrapy.extensions.telnet.TelnetConsole": None,
-    "products_crawler.extensions.throttle.AutoThrottleWithList": 100
+    "products_crawler.extensions.throttle.AutoThrottleWithList": 100,
+    "scrapeops_scrapy.extension.ScrapeOpsMonitor": 500
 }
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     # "scrapy.pipelines.images.ImagesPipeline": 100,
+    "products_crawler.pipelines.ExcludeProductsPipeline": 89,
     "products_crawler.pipelines.DuplicatesPipeline": 90,
     "products_crawler.pipelines.CustomImageNamePipeline": 100,
     "products_crawler.pipelines.MongoPipeline": 200
@@ -160,6 +169,15 @@ EXCLUDE_PRODUCTS = {
             "amzn1.asin.1.B0B5L1NV4S",
             "amzn1.asin.1.B08RYSP4P3",
             "amzn1.asin.1.B0BY4WCKRZ",
+            "amzn1.asin.1.B0BQ269QF7",
+            "amzn1.asin.1.B09VPR6F7V",
+            "amzn1.asin.1.B0BKFXZFVH",
+            "amzn1.asin.1.B09CT8QS3W",
+            "amzn1.asin.1.B095H2JV9D",
+        ],
+        "Lazada": [
+            "2341287112",
+            "4002733897",
         ]
     }
 }

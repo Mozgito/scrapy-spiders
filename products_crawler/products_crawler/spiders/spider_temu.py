@@ -1,8 +1,8 @@
 import re
 import json
+import random
 import scrapy
 from scrapy import Request
-from scrapy_playwright.page import PageMethod
 from ..items import ProductsCrawlerItem
 
 BLOCK_RESOURCE_TYPES = [
@@ -55,15 +55,14 @@ class SpiderTemu(scrapy.Spider):
     ]
     custom_settings = {
         "PLAYWRIGHT_ABORT_REQUEST": abort_request,
-        "PLAYWRIGHT_LAUNCH_OPTIONS": {"headless": True}
+        "PLAYWRIGHT_LAUNCH_OPTIONS": {"headless": True},
+        "SCRAPEOPS_PROXY_ENABLED": True
     }
     meta = {
         "playwright": True,
         "playwright_include_page": True,
-        "playwright_page_methods": [
-            PageMethod("wait_for_selector", "._3GizL2ou"),
-        ],
-        "errback": errback
+        "errback": errback,
+        "sops_country": random.choice(["us", "de", "es", "fr", "uk", "it", "ca", "br", "in"])
     }
 
     def __init__(self, url_number=None, *args, **kwargs):

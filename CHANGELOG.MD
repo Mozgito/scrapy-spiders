@@ -7,6 +7,7 @@
 * Temu scraper
 * Add excluded product ids list
 * Spiders improvements
+* Add ScrapeOps Proxy
 
 ### 1.4.4
 * Shein scraper

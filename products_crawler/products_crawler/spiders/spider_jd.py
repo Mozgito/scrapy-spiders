@@ -55,8 +55,7 @@ class SpiderJD(scrapy.Spider):
                         "playwright": True,
                         "playwright_include_page": True,
                         "playwright_page_methods": [
-                            #PageMethod("wait_for_selector", "li.gl-item"),
-                            PageMethod("wait_for_timeout", 6000),
+                            PageMethod("wait_for_selector", "li.gl-item")
                         ],
                         "errback": errback
                     }

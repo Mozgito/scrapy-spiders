@@ -97,7 +97,7 @@ class SpiderShein(scrapy.Spider):
             item['prod_id'] = product.xpath("./div[@class='S-product-item__wrapper']/a/@data-id").get()
             item['name'] = product.xpath("./div[@class='S-product-item__wrapper']/a/@data-title").get()
             item['url'] = "https://ph.shein.com" + re.search(r"(.*?\.html)\?", product.xpath("./div[@class='S-product-item__wrapper']/a/@href").get()).group(1)
-            item['price'] = product.xpath(".//span[@class='normal-price-ctn__sale-price normal-price-ctn__sale-price_discount']/@aria-label").get()[6:]
+            item['price'] = product.xpath(".//span[@class='normal-price-ctn__sale-price normal-price-ctn__sale-price_discount']/@aria-label").get()[6:].replace(',', '')
             item['currency'] = 'PHP'
             item['image_urls'] = ["https:" + product.xpath("./div[@class='S-product-item__wrapper']/a/div[1]/@data-before-crop-src").get()]
             if product.xpath("./div[@class='S-product-item__wrapper']/a/div[2]/div").get():
