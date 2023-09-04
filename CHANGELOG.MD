@@ -1,6 +1,8 @@
 ## Release Notes
 
 ### Latest Changes
+
+### 1.5.0 
 * Add url selector and max pages count arguments to spiders
 * Saving prices as int or float
 * Add CRON example

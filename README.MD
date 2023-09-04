@@ -8,8 +8,11 @@ Images are stored in directory of project and product data is stored in MongoDB.
 * MongoDB runs in docker container. Scrapy spiders run in regular/virtual environment.
 * Scrapy items have `type` field that will be a `collection name` in DB and a `directory name` for images.
 * User-Agent generator for each request.
-* Custom auto-throttler. Standard download delay applies to the list of domains (`LIMIT_DOMAINS` in `settings.py`)
+* Custom ScrapeOps proxy.
+* Custom auto-throttler. Standard download delay applies to the list of domains (`LIMIT_DOMAINS` in `settings.py`).
+* Exclude products list for unnecessary items specified by `type/site/id`.
 * Image cleaner tool to keep image data consistent with product database.
+And image resizer tool for further similarity comparison.
 * MongoDB 4.4 used for compatibility with servers that don't support AVX. 
 Anyway version can be changed to the most fresh 6 or 7. Dump and restore work fine.
 * Spiders can be set on CRON: `0 5 * * * sh /path_to_cron_example.sh 0 20`, 
@@ -24,4 +27,3 @@ Example of spider sh file is here `products_crawler/cron/example.sh`
 5. Run spider
 ### TODO
 - [ ] DB indexes
-- [ ] Proxy
