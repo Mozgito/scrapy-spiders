@@ -46,9 +46,9 @@ async def errback(failure):
 class SpiderAmazon(scrapy.Spider):
     name = "spider_amzn"
     urls = [
-        "https://www.amazon.com/s?k=PU+Leather+bag&i=fashion-womens-handbags&rh=n%3A3421075011",
-        "https://www.amazon.com/s?k=PU+leather+bag&i=fashion-womens-handbags&rh=n%3A2475901011",
-        "https://www.amazon.com/s?k=PU+leather+bag&i=fashion-womens-handbags&rh=n%3A7141123011"
+        "https://www.amazon.com/s?k=PU+Leather+bag&i=fashion-womens-handbags&rh=n%3A3421075011&s=exact-aware-popularity-rank",  # Shoulder
+        "https://www.amazon.com/s?k=PU+leather+bag&i=fashion-womens-handbags&rh=n%3A2475901011&s=exact-aware-popularity-rank",  # Top-Handle
+        "https://www.amazon.com/s?k=PU+Leather+bag&i=fashion-womens-handbags&rh=n%3A16977746011&s=exact-aware-popularity-rank"  # Tote
     ]
     custom_settings = {
         "PLAYWRIGHT_ABORT_REQUEST": abort_request,

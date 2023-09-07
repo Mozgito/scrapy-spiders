@@ -21,9 +21,10 @@ and `30 6 * * * python /path_to/products_crawler/tools/image_resize.py`
 Example of spider sh file is here `products_crawler/cron/example.sh`
 ### First-time setup
 1. Set Mongo connection data in `.env`
-2. Install dependencies with `pip install -r requirements.txt`
-3. Install Playwright environment with `playwright install` and dependencies with `playwright install-deps`
-4. Build and start MongoDB `docker compose up -d`
-5. Run spider
+2. Set JD login and ScrapOps API key
+3. Install dependencies with `pip install -r requirements.txt`
+4. Install Playwright environment with `playwright install` and dependencies with `playwright install-deps`
+5. Build and start MongoDB `docker compose up -d`
+6. Run spider
 ### TODO
 - [ ] DB indexes

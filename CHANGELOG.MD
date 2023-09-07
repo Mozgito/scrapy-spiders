@@ -1,6 +1,8 @@
 ## Release Notes
 
 ### Latest Changes
+* Add JD login and captcha solver
+* Update requirements
 
 ### 1.5.0 
 * Add url selector and max pages count arguments to spiders

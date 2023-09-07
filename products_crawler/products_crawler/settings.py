@@ -30,9 +30,8 @@ DOWNLOAD_HANDLERS = {
 SCRAPEOPS_API_KEY = os.environ["SCRAPEOPS_APIKEY"]
 SCRAPEOPS_PROXY_ENABLED = False
 
-# Define MongoDB uri
+# MongoDB uri and database
 MONGODB_URI = os.environ["MONGO_URL"]
-# Define MongoDB database
 MONGODB_DB = os.environ["MONGO_DB"]
 
 # Obey robots.txt rules
@@ -181,6 +180,10 @@ EXCLUDE_PRODUCTS = {
         ]
     }
 }
+
+# JingDong
+JD_LOGIN = os.environ["JD_LOGIN"]
+JD_PSWD = os.environ["JD_PSWD"]
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
