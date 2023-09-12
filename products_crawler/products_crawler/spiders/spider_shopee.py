@@ -1,8 +1,9 @@
 import json
 import re
 import scrapy
+import time
 from scrapy import Request
-from ..items import ProductsCrawlerItem
+from ..items import ProductItem
 
 
 async def errback(failure):
@@ -60,7 +61,7 @@ class SpiderShopee(scrapy.Spider):
         products = json.loads(json_body)['data']['sections'][0]['data']['item']
 
         for product in products:
-            item = ProductsCrawlerItem()
+            item = ProductItem()
             item['prod_id'] = product['itemid']
             item['name'] = product['name']
             item['url'] = self.slugify_product_url(product)
@@ -73,6 +74,7 @@ class SpiderShopee(scrapy.Spider):
                     break
             item['site'] = 'Shopee'
             item['type'] = 'bags'
+            item['last_updated'] = int(time.time())
 
             yield item
 

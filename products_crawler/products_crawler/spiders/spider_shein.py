@@ -1,8 +1,9 @@
 import re
 import scrapy
+import time
 from scrapy import Request
 from scrapy_playwright.page import PageMethod
-from ..items import ProductsCrawlerItem
+from ..items import ProductItem
 
 BLOCK_RESOURCE_TYPES = [
     "beacon",
@@ -93,7 +94,7 @@ class SpiderShein(scrapy.Spider):
             xpath(".//section[@class='S-product-item j-expose__product-item product-list__item']")
 
         for product in products:
-            item = ProductsCrawlerItem()
+            item = ProductItem()
             item['prod_id'] = product.xpath("./div[@class='S-product-item__wrapper']/a/@data-id").get()
             item['name'] = product.xpath("./div[@class='S-product-item__wrapper']/a/@data-title").get()
             item['url'] = "https://ph.shein.com" + re.search(r"(.*?\.html)\?", product.xpath("./div[@class='S-product-item__wrapper']/a/@href").get()).group(1)
@@ -104,6 +105,7 @@ class SpiderShein(scrapy.Spider):
                 item['image_urls'].append("https:" + product.xpath("./div[@class='S-product-item__wrapper']/a/div[2]/div/@data-before-crop-src").get())
             item['site'] = 'Shein'
             item['type'] = 'bags'
+            item['last_updated'] = int(time.time())
 
             yield item
 

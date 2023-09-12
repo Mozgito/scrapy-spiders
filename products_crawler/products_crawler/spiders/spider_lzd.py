@@ -2,8 +2,9 @@ import json
 import random
 import re
 import scrapy
+import time
 from scrapy import Request
-from ..items import ProductsCrawlerItem
+from ..items import ProductItem
 
 async def errback(failure):
     page = failure.request.meta["playwright_page"]
@@ -57,7 +58,7 @@ class SpiderLazada(scrapy.Spider):
         products = json.loads(json_body)['mods']['listItems']
 
         for product in products:
-            item = ProductsCrawlerItem()
+            item = ProductItem()
             item['prod_id'] = product['itemId']
             item['name'] = product['name']
             item['url'] = 'https:' + product['itemUrl']
@@ -71,6 +72,7 @@ class SpiderLazada(scrapy.Spider):
                     break
             item['site'] = 'Lazada'
             item['type'] = 'bags'
+            item['last_updated'] = int(time.time())
 
             yield item
 

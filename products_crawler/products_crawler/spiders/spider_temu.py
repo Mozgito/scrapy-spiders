@@ -2,8 +2,9 @@ import re
 import json
 import random
 import scrapy
+import time
 from scrapy import Request
-from ..items import ProductsCrawlerItem
+from ..items import ProductItem
 
 BLOCK_RESOURCE_TYPES = [
     "beacon",
@@ -89,7 +90,7 @@ class SpiderTemu(scrapy.Spider):
         products = json.loads(json_body)['store']['goodsList']
 
         for product in products:
-            item = ProductsCrawlerItem()
+            item = ProductItem()
             item['prod_id'] = product['data']['goodsId']
             item['name'] = product['data']['title']
             item['url'] = 'https://www.temu.com' + re.search(r"(.*?\.html)\?", product['data']['seoLinkUrl']).group(1)
@@ -98,5 +99,6 @@ class SpiderTemu(scrapy.Spider):
             item['image_urls'] = [product['data']['image']['url']]
             item['site'] = 'Temu'
             item['type'] = 'bags'
+            item['last_updated'] = int(time.time())
 
             yield item

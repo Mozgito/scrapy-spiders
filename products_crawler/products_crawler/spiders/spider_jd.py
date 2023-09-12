@@ -5,10 +5,11 @@ import pillow_avif
 import random
 import re
 import scrapy
+import time
 from pathlib import Path
 from scrapy import Request
 from scrapy_playwright.page import PageMethod
-from ..items import ProductsCrawlerItem
+from ..items import ProductItem
 
 
 class SpiderJD(scrapy.Spider):
@@ -100,7 +101,7 @@ class SpiderJD(scrapy.Spider):
             else:
                 img_src = "https:" + product.xpath("./div/div[@class='p-img']/a/img/@data-lazy-img").get()
 
-            item = ProductsCrawlerItem()
+            item = ProductItem()
             item['prod_id'] = product.xpath("@data-sku").get()
             item['name'] = product.xpath("./div/div[@class='p-name p-name-type-3']/a/em/text()").get() \
                 .replace('\n', '').replace('\t', '')
@@ -110,6 +111,7 @@ class SpiderJD(scrapy.Spider):
             item['image_urls'] = [img_src]
             item['site'] = 'JingDong'
             item['type'] = 'bags'
+            item['last_updated'] = int(time.time())
 
             yield item
 

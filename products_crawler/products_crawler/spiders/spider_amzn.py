@@ -3,7 +3,7 @@ import scrapy
 import time
 from scrapy import Request
 from scrapy_playwright.page import PageMethod
-from ..items import ProductsCrawlerItem
+from ..items import ProductItem
 
 BLOCK_RESOURCE_TYPES = [
     "beacon",
@@ -97,7 +97,7 @@ class SpiderAmazon(scrapy.Spider):
                                   "div[1]/a/span[@class='a-price']").get() is None:
                 continue
 
-            item = ProductsCrawlerItem()
+            item = ProductItem()
             item['prod_id'] = product.xpath("./@data-csa-c-item-id").get()
             item['name'] = product.xpath("./div/div/div[2]/"
                                          "div[@class='a-section a-spacing-none a-spacing-top-small s-title-instructions-style']/"
@@ -111,6 +111,7 @@ class SpiderAmazon(scrapy.Spider):
             item['image_urls'] = [product.xpath(".//a[@class='a-link-normal s-no-outline']/div/img/@src").get()]
             item['site'] = 'Amazon'
             item['type'] = 'bags'
+            item['last_updated'] = int(time.time())
 
             yield item
 
