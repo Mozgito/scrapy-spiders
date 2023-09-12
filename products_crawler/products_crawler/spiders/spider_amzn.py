@@ -98,7 +98,7 @@ class SpiderAmazon(scrapy.Spider):
                 continue
 
             item = ProductItem()
-            item['prod_id'] = product.xpath("./@data-csa-c-item-id").get()
+            item['prod_id'] = re.search(r"asin\.1\.(.*?)$", product.xpath("./@data-csa-c-item-id").get()).group(1)
             item['name'] = product.xpath("./div/div/div[2]/"
                                          "div[@class='a-section a-spacing-none a-spacing-top-small s-title-instructions-style']/"
                                          "h2/a/span/text()").get()

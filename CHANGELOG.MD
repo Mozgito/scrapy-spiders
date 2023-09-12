@@ -1,9 +1,12 @@
 ## Release Notes
 
 ### Latest Changes
+
+### 1.5.1
 * Add JD login and captcha solver
 * Update requirements
 * Add "last_updated" field for item
+* Refactor Amazon product id
 
 ### 1.5.0 
 * Add url selector and max pages count arguments to spiders
