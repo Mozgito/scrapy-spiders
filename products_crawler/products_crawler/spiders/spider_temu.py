@@ -33,26 +33,23 @@ def abort_request(request):
     return False
 
 
-async def errback(failure):
-    page = failure.request.meta["playwright_page"]
-    await page.close()
-
-
 class SpiderTemu(scrapy.Spider):
     name = "spider_temu"
     urls = [
-        "https://www.temu.com/ph-en/womens-tote-bags-o3-736.html?filter_items=P121:26569|0:1",
-        "https://www.temu.com/ph-en/womens-handbags-o3-735.html?filter_items=P121:26569|0:1",
-        "https://www.temu.com/ph-en/womens-shoulder-bags-o3-738.html?filter_items=P121:26569|0:1",
-        "https://www.temu.com/ph-en/womens-crossbody-bags-o3-740.html?filter_items=P121:26569|0:1",
+        "https://www.temu.com/womens-tote-bags-o3-736.html?filter_items=P121:26569|0:1",
+        "https://www.temu.com/womens-shoulder-bags-o3-738.html?filter_items=P121:26569|0:1",
+        "https://www.temu.com/womens-crossbody-bags-o3-740.html?filter_items=P121:26569|0:1",
+        "https://www.temu.com/womens-handbags-o3-735.html?filter_items=P121:26569|0:1",
+        "https://www.temu.com/womens-backpacks-o3-742.html?filter_items=P121:26569|0:1",
     ]
     price_filters = [
-        "|104:170,399",
-        "|104:400,599",
-        "|104:600,699",
-        "|104:700,899",
-        "|104:900,1199",
-        "|104:1200,1999",
+        "|104:3.5,8.99",
+        "|104:9,11.99",
+        "|104:12,15.99",
+        "|104:16,19.99",
+        "|104:20,23.99",
+        "|104:24,28.99",
+        "|104:29,39.99",
     ]
     custom_settings = {
         "PLAYWRIGHT_ABORT_REQUEST": abort_request,
@@ -62,8 +59,7 @@ class SpiderTemu(scrapy.Spider):
     meta = {
         "playwright": True,
         "playwright_include_page": True,
-        "errback": errback,
-        "sops_country": random.choice(["us", "de", "es", "fr", "uk", "it", "ca", "br", "in"])
+        "sops_country": "us"
     }
 
     def __init__(self, url_number=None, *args, **kwargs):
@@ -73,14 +69,25 @@ class SpiderTemu(scrapy.Spider):
 
     def start_requests(self):
         for url in self.urls:
-            for price_filter in self.price_filters:
+            if re.search(r'backpacks', url) is not None:
                 yield Request(
-                    url + price_filter,
+                    url,
                     callback=self.parse,
                     method="GET",
                     dont_filter=True,
-                    meta=self.meta
+                    meta=self.meta,
+                    errback=self.errback
                 )
+            else:
+                for price_filter in self.price_filters:
+                    yield Request(
+                        url + price_filter,
+                        callback=self.parse,
+                        method="GET",
+                        dont_filter=True,
+                        meta=self.meta,
+                        errback=self.errback
+                    )
 
     async def parse(self, response):
         page = response.meta["playwright_page"]
@@ -95,10 +102,18 @@ class SpiderTemu(scrapy.Spider):
             item['name'] = product['data']['title']
             item['url'] = 'https://www.temu.com' + re.search(r"(.*?\.html)\?", product['data']['seoLinkUrl']).group(1)
             item['price'] = product['data']['priceInfo']['priceSchema']
-            item['currency'] = 'PHP'
+            item['currency'] = product['data']['priceInfo']['currency']
             item['image_urls'] = [product['data']['image']['url']]
             item['site'] = 'Temu'
             item['type'] = 'bags'
             item['last_updated'] = int(time.time())
 
+            if item['currency'] != 'USD':
+                self.log("Temu. Wrong currency: {}. URL: {}".format(item['currency'], response.url), 40)
+                break
+
             yield item
+
+    async def errback(self, response):
+        page = response.request.meta["playwright_page"]
+        await page.close()

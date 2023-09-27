@@ -9,6 +9,14 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
       - MONGO_INITDB_DATABASE=${MONGO_DB}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 2048M
+        reservations:
+          cpus: '0.2'
+          memory: 300M
     restart: always
     ports:
       - '27017:27017'

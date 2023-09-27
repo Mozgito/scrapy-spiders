@@ -2,6 +2,13 @@
 
 ### Latest Changes
 
+### 1.5.2
+* Switch Temu to US
+* Switch Shein to US
+* Refactor image resize tool, make square by bigger side
+* Add Mongo container limits
+* Add two DB indexes: prod_id+site and images.path
+
 ### 1.5.1
 * Add JD login and captcha solver
 * Update requirements

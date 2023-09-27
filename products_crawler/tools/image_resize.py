@@ -4,24 +4,29 @@ import os
 from pathlib import Path
 
 
-def resize_image(image_path: str, size: int) -> None:
+def resize_image(image_path: str) -> None:
     img = cv.imread(image_path, cv.IMREAD_COLOR)
     height = img.shape[0]
     width = img.shape[1]
-    preferred_height = size
-    preferred_width = size
+    if height > width:
+        preferred_height = height
+        size = height
+    else:
+        preferred_width = width
+        size = width
+
     pad_top = 0
     pad_bot = 0
     pad_left = 0
     pad_right = 0
 
     if height > width:
-        preferred_width = round(preferred_height / height * width)
+        preferred_width = round(size / height * width)
         pad_left = math.floor((size - preferred_width) / 2)
         pad_right = math.ceil((size - preferred_width) / 2)
 
     if height < width:
-        preferred_height = round(preferred_width / width * height)
+        preferred_height = round(size / width * height)
         pad_top = math.floor((size - preferred_height) / 2)
         pad_bot = math.ceil((size - preferred_height) / 2)
 
@@ -49,7 +54,4 @@ if __name__ == "__main__":
         for image in os.listdir(images_path + site):
             abs_image_path = os.path.join(images_path, site, image)
             if os.path.isfile(abs_image_path):
-                if site in ['Lazada', 'Shopee', 'Temu']:
-                    resize_image(abs_image_path, 700)
-                else:
-                    resize_image(abs_image_path, 350)
+                resize_image(abs_image_path)

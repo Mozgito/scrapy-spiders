@@ -39,17 +39,16 @@ def abort_request(request):
     return False
 
 
-async def errback(failure):
-    page = failure.request.meta["playwright_page"]
-    await page.close()
-
-
 class SpiderShein(scrapy.Spider):
     name = "spider_shein"
     urls = [
-        "https://ph.shein.com/Bags-&-Luggage-c-3637.html?attr_values=PU%20Leather&child_cat_id=1764&attr_ids=160_532&exc_attr_id=160",
-        "https://ph.shein.com/Bags-&-Luggage-c-3637.html?attr_values=PU%20Leather&child_cat_id=2152&attr_ids=160_532&exc_attr_id=160",
-        "https://ph.shein.com/Bags-&-Luggage-c-3637.html?attr_values=PU%20Leather&child_cat_id=2844&attr_ids=160_532&exc_attr_id=160",
+        "https://us.shein.com/Women-Shoulder-Bags-c-1764.html?attr_values=PU-PU%20Leather&attr_ids=160_1002592-160_532&exc_attr_id=160",  # Shoulder bags
+        "https://us.shein.com/Women-Crossbody-c-2152.html?attr_values=PU-PU%20Leather&attr_ids=160_1002592-160_532&exc_attr_id=160&page=1",  # Crossbody bags
+        "https://us.shein.com/Women-Satchels-c-2155.html?attr_values=PU-PU%20Leather&attr_ids=160_1002592-160_532&exc_attr_id=160",  # Satchels
+        "https://us.shein.com/Women-Bag-Sets-c-2157.html?attr_values=PU-PU%20Leather&attr_ids=160_532-160_1002592&exc_attr_id=160",  # Bag sets
+        "https://us.shein.com/Women-Tote-Bags-c-2844.html?attr_values=PU-PU%20Leather&attr_ids=160_1002592-160_532&exc_attr_id=160",  # Tote bags
+        "https://us.shein.com/Women-Backpacks-c-4256.html?attr_values=PU-PU%20Leather&attr_ids=160_1002592-160_532&exc_attr_id=160",  # Backpacks
+        "https://us.shein.com/Women-Satchels-c-2155.html?attr_values=PU-PU%20Leather-Black&attr_ids=160_1002592-160_532-27_112&exc_attr_id=160",  # Satchels black color
     ]
     custom_settings = {
         "PLAYWRIGHT_ABORT_REQUEST": abort_request,
@@ -60,8 +59,7 @@ class SpiderShein(scrapy.Spider):
         "playwright_include_page": True,
         "playwright_page_methods": [
             PageMethod("wait_for_selector", ".sui-pagination__total"),
-        ],
-        "errback": errback
+        ]
     }
 
     def __init__(self, url_number=None, pages=1, *args, **kwargs):
@@ -77,7 +75,8 @@ class SpiderShein(scrapy.Spider):
                 callback=self.parse,
                 method="GET",
                 dont_filter=True,
-                meta=self.meta
+                meta=self.meta,
+                errback=self.errback
             )
 
     async def parse(self, response):
@@ -97,9 +96,9 @@ class SpiderShein(scrapy.Spider):
             item = ProductItem()
             item['prod_id'] = product.xpath("./div[@class='S-product-item__wrapper']/a/@data-id").get()
             item['name'] = product.xpath("./div[@class='S-product-item__wrapper']/a/@data-title").get()
-            item['url'] = "https://ph.shein.com" + re.search(r"(.*?\.html)\?", product.xpath("./div[@class='S-product-item__wrapper']/a/@href").get()).group(1)
-            item['price'] = product.xpath(".//span[@class='normal-price-ctn__sale-price normal-price-ctn__sale-price_discount']/@aria-label").get()[6:].replace(',', '')
-            item['currency'] = 'PHP'
+            item['url'] = "https://us.shein.com" + re.search(r"(.*?\.html)\?", product.xpath("./div[@class='S-product-item__wrapper']/a/@href").get()).group(1)
+            item['price'] = product.xpath(".//span[contains(@class, 'normal-price-ctn__sale-price')]/@aria-label").get()[6:].replace(',', '')
+            item['currency'] = 'USD'
             item['image_urls'] = ["https:" + product.xpath("./div[@class='S-product-item__wrapper']/a/div[1]/@data-before-crop-src").get()]
             if product.xpath("./div[@class='S-product-item__wrapper']/a/div[2]/div").get():
                 item['image_urls'].append("https:" + product.xpath("./div[@class='S-product-item__wrapper']/a/div[2]/div/@data-before-crop-src").get())
@@ -115,5 +114,10 @@ class SpiderShein(scrapy.Spider):
                 callback=self.parse,
                 method="GET",
                 dont_filter=True,
-                meta=self.meta
+                meta=self.meta,
+                errback=self.errback
             )
+
+    async def errback(self, response):
+        page = response.request.meta["playwright_page"]
+        await page.close()

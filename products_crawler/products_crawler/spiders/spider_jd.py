@@ -15,10 +15,10 @@ from ..items import ProductItem
 class SpiderJD(scrapy.Spider):
     name = "spider_jd"
     urls = [
-        "https://list.jd.com/list.html?cat=1672%2C2575%2C5257&ev=3237_165509%5E",
-        "https://list.jd.com/list.html?cat=1672%2C2575%2C5259&ev=3237_165509%5E",
-        "https://list.jd.com/list.html?cat=1672%2C2575%2C5260&ev=3237_165509%5E"
-        # "https://list.jd.com/list.html?cat=1672%2C2575%2C5258&ev=3237_165509%5E",
+        "https://list.jd.com/list.html?cat=1672%2C2575%2C5257&ev=3237_165509%5E",  # Shoulder / Crossbody bags
+        "https://list.jd.com/list.html?cat=1672%2C2575%2C5259&ev=3237_165509%5E",  # Handbags
+        "https://list.jd.com/list.html?cat=1672%2C2575%2C5260&ev=3237_165509%5E",  # Handbags
+        "https://list.jd.com/list.html?cat=1672%2C2575%2C5258&ev=3237_165509%5E",  # Backpacks
     ]
     custom_settings = {
         "PLAYWRIGHT_LAUNCH_OPTIONS": {"headless": True}
@@ -115,8 +115,8 @@ class SpiderJD(scrapy.Spider):
 
             yield item
 
-    async def errback(self, failure):
-        page = failure.request.meta["playwright_page"]
+    async def errback(self, response):
+        page = response.request.meta["playwright_page"]
         await page.close()
 
     async def get_captcha_images(self, page):

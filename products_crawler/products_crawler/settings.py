@@ -114,7 +114,7 @@ LIMIT_DOMAINS = [
     "shopee.ph",
     "www.lazada.com.ph",
     "www.amazon.com",
-    "ph.shein.com",
+    "us.shein.com",
     "temu.com"
 ]
 
