@@ -115,7 +115,8 @@ LIMIT_DOMAINS = [
     "www.lazada.com.ph",
     "www.amazon.com",
     "us.shein.com",
-    "temu.com"
+    "temu.com",
+    "show.1688.com",
 ]
 
 # List of excluded product ids

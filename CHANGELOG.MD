@@ -1,6 +1,7 @@
 ## Release Notes
 
 ### Latest Changes
+* 1688 scraper
 
 ### 1.5.2
 * Switch Temu to US
