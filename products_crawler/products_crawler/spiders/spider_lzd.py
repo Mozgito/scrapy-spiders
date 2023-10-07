@@ -6,10 +6,6 @@ import time
 from scrapy import Request
 from ..items import ProductItem
 
-async def errback(failure):
-    page = failure.request.meta["playwright_page"]
-    await page.close()
-
 
 class SpiderLazada(scrapy.Spider):
     name = "spider_lzd"
@@ -30,12 +26,11 @@ class SpiderLazada(scrapy.Spider):
         if url_number is not None:
             self.urls = [self.urls[int(url_number)]]
 
-    def _get_meta(self) -> dict:
+    def get_meta(self) -> dict:
         return {
             "playwright": True,
             "playwright_include_page": True,
-            "errback": errback,
-            "sops_country": random.choice(["ru", "jp", "in"])
+            "sops_country": random.choice(["ca", "jp", "es"])
         }
 
     def start_requests(self):
@@ -45,7 +40,8 @@ class SpiderLazada(scrapy.Spider):
                 callback=self.parse,
                 method="GET",
                 dont_filter=True,
-                meta=self._get_meta()
+                meta=self.get_meta(),
+                errback=self.errback
             )
 
     async def parse(self, response):
@@ -68,7 +64,7 @@ class SpiderLazada(scrapy.Spider):
             for i in range(0, len(product['thumbs'])):
                 if product['thumbs'][i]['image'] not in item['image_urls']:
                     item['image_urls'].append(product['thumbs'][i]['image'])
-                if i == 3:
+                if i == 3 or len(item['image_urls']) == 4:
                     break
             item['site'] = 'Lazada'
             item['type'] = 'bags'
@@ -83,5 +79,10 @@ class SpiderLazada(scrapy.Spider):
                 callback=self.parse,
                 method="GET",
                 dont_filter=True,
-                meta=self._get_meta()
+                meta=self.get_meta(),
+                errback=self.errback
             )
+
+    async def errback(self, response):
+        page = response.request.meta["playwright_page"]
+        await page.close()

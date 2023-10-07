@@ -1,6 +1,5 @@
 import re
 import json
-import random
 import scrapy
 import time
 from scrapy import Request
@@ -36,11 +35,11 @@ def abort_request(request):
 class SpiderTemu(scrapy.Spider):
     name = "spider_temu"
     urls = [
-        "https://www.temu.com/womens-tote-bags-o3-736.html?filter_items=P121:26569|0:1",
-        "https://www.temu.com/womens-shoulder-bags-o3-738.html?filter_items=P121:26569|0:1",
-        "https://www.temu.com/womens-crossbody-bags-o3-740.html?filter_items=P121:26569|0:1",
-        "https://www.temu.com/womens-handbags-o3-735.html?filter_items=P121:26569|0:1",
-        "https://www.temu.com/womens-backpacks-o3-742.html?filter_items=P121:26569|0:1",
+        "https://www.temu.com/womens-tote-bags-o3-736.html?filter_items=P12:122|0:1",
+        "https://www.temu.com/womens-shoulder-bags-o3-738.html?filter_items=P12:122|0:1",
+        "https://www.temu.com/womens-crossbody-bags-o3-740.html?filter_items=P12:122|0:1",
+        "https://www.temu.com/womens-handbags-o3-735.html?filter_items=P12:122|0:1",
+        "https://www.temu.com/womens-backpacks-o3-742.html?filter_items=P12:122|0:1",
     ]
     price_filters = [
         "|104:3.5,8.99",

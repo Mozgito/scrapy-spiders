@@ -73,7 +73,8 @@ class Spider1688(scrapy.Spider):
             item['prod_id'] = int(product.xpath("./@id").get())
             item['name'] = product.xpath(".//div[@class='offer-title']/text()").get()
             item['url'] = re.search(r"(.*?\.html)\?", product.xpath("./a/@href").get()).group(1)
-            item['price'] = product.xpath(".//div[@class='offer-desc']//span[@class='alife-bc-uc-number']/text()").get().replace('+', '')
+            item['price'] = product.xpath(".//div[@class='offer-desc']//span[@class='alife-bc-uc-number']/text()").\
+                get().replace('+', '')
             item['currency'] = 'CNY'
             item['image_urls'] = [product.xpath(".//div[@class='offer-img']/img/@src").get()]
             item['site'] = '1688'
