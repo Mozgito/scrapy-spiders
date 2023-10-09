@@ -48,7 +48,10 @@ class SpiderAmazon(scrapy.Spider):
     urls = [
         "https://www.amazon.com/s?k=Women%27s+Shoulder+Handbags&i=fashion-womens-handbags&rh=n:3421075011,p_n_material_browse:17037742011|17037743011|3388479011",   # Shoulder bags
         "https://www.amazon.com/s?keywords=Women%27s+Top-Handle+Handbags&i=fashion-womens-handbags&rh=n:2475901011,p_n_material_browse:17037742011|17037743011|3388479011",  # Top-Handle bags
-        "https://www.amazon.com/s?i=fashion-womens-handbags&rh=n:16977746011,p_n_material_browse:17037742011|17037743011|3388479011"  # Tote bags
+        "https://www.amazon.com/s?keywords=Women%27s+Crossbody+Handbags&i=fashion-womens-handbags&rh=n:2475899011,p_n_material_browse:17037742011|17037743011|3388479011",  # Crossbody bags
+        "https://www.amazon.com/s?i=fashion-womens-handbags&rh=n:16977746011,p_n_material_browse:17037742011|17037743011|3388479011",  # Tote bags
+        "https://www.amazon.com/s?i=fashion-womens-handbags&rh=n:16977748011,p_n_material_browse:17037742011|17037743011|3388479011",  # Satchel bags
+        "https://www.amazon.com/s?i=fashion-womens-handbags&rh=n:16977747011,p_n_material_browse:17037742011|17037743011|3388479011"  # Hobo bags
     ]
     custom_settings = {
         "PLAYWRIGHT_ABORT_REQUEST": abort_request,
@@ -80,9 +83,6 @@ class SpiderAmazon(scrapy.Spider):
             )
 
     async def parse(self, response):
-        page = response.meta["playwright_page"]
-        await page.close()
-
         next_page = int(response.xpath(".//span[@class='s-pagination-strip']"
                                        "/span[@class='s-pagination-item s-pagination-selected']/text()").get()) + 1
         total_pages = int(response.xpath(".//span[@class='s-pagination-strip']"
@@ -102,6 +102,9 @@ class SpiderAmazon(scrapy.Spider):
             item['name'] = product.xpath("./div/div/div[2]/"
                                          "div[@class='a-section a-spacing-none a-spacing-top-small s-title-instructions-style']/"
                                          "h2/a/span/text()").get()
+            if re.search(r"(cosmetic)|(replacement)", item['name'].lower()) is not None:
+                continue
+
             item['url'] = "https://www.amazon.com" \
                           + re.search(r"(.*?)/ref=", product.xpath(".//a[@class='a-link-normal s-no-outline']/@href").get()).group(1)
             item['price'] = product.xpath("./div/div/div[2]/"

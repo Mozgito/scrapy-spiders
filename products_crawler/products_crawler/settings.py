@@ -90,8 +90,8 @@ ITEM_PIPELINES = {
 }
 
 IMAGES_STORE = "images"
-IMAGES_MIN_HEIGHT = 200
-IMAGES_MIN_WIDTH = 190
+IMAGES_MIN_HEIGHT = 180
+IMAGES_MIN_WIDTH = 180
 IMAGES_EXPIRES = 365
 MEDIA_ALLOW_REDIRECTS = True
 
@@ -174,6 +174,22 @@ EXCLUDE_PRODUCTS = {
             "B0BKFXZFVH",
             "B09CT8QS3W",
             "B095H2JV9D",
+            "B0CBNL7M6X",
+            "B0CHPQ8SG7",
+            "B0CHQTJ5KG",
+            "B0B72DBL7S",
+            "B08BHJWX5N",
+            "B08BHPGD7C",
+            "B08BHJP5ZV",
+            "B08BHHS7FK",
+            "B096LQDRWB",
+            "B0CKKQJJ4S",
+            "B0BY1CFTPT",
+            "B091J6R2YC",
+            "B0CJPCCTQH",
+            "B0CKLWPCVM",
+            "B0CGP8SRR4",
+            "B0CKLYP6NS",
         ],
         "Lazada": [
             "2341287112",

@@ -44,7 +44,7 @@ class SpiderShein(scrapy.Spider):
     urls = [
         "https://us.shein.com/Women-Shoulder-Bags-c-1764.html?attr_values=PU-PU%20Leather&attr_ids=160_1002592-160_532&exc_attr_id=160",  # Shoulder bags
         "https://us.shein.com/Women-Crossbody-c-2152.html?attr_values=PU-PU%20Leather&attr_ids=160_1002592-160_532&exc_attr_id=160&page=1",  # Crossbody bags
-        "https://us.shein.com/Women-Satchels-c-2155.html?attr_values=PU-PU%20Leather&attr_ids=160_1002592-160_532&exc_attr_id=160",  # Satchels
+        "https://us.shein.com/Women-Satchels-c-2155.html?attr_values=PU-PU%20Leather&attr_ids=160_1002592-160_532-160_91&exc_attr_id=160",  # Satchels
         "https://us.shein.com/Women-Bag-Sets-c-2157.html?attr_values=PU-PU%20Leather&attr_ids=160_532-160_1002592&exc_attr_id=160",  # Bag sets
         "https://us.shein.com/Women-Tote-Bags-c-2844.html?attr_values=PU-PU%20Leather&attr_ids=160_1002592-160_532&exc_attr_id=160",  # Tote bags
         "https://us.shein.com/Women-Backpacks-c-4256.html?attr_values=PU-PU%20Leather&attr_ids=160_1002592-160_532&exc_attr_id=160",  # Backpacks

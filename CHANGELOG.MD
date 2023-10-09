@@ -2,6 +2,7 @@
 
 ### Latest Changes
 * 1688 scraper
+* Spiders improvements
 
 ### 1.5.2
 * Switch Temu to US
