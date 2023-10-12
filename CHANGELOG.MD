@@ -2,6 +2,10 @@
 
 ### Latest Changes
 
+### 1.5.4
+* Amazon bestsellers scraper
+* Bestseller item class
+
 ### 1.5.3
 * 1688 scraper
 * Spiders improvements

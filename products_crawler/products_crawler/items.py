@@ -18,3 +18,12 @@ class ProductItem(scrapy.Item):
     type = scrapy.Field(serializer=str)
     last_updated = scrapy.Field(serializer=int)
     pass
+
+
+class ProductBestSellerItem(ProductItem):
+    category = scrapy.Field(serializer=str)
+    rating = scrapy.Field(serializer=float)
+    reviews = scrapy.Field(serializer=int)
+    sales = scrapy.Field(serializer=int)
+    date = scrapy.Field(serializer=str)
+    pass

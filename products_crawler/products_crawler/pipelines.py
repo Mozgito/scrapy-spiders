@@ -88,8 +88,12 @@ class MongoPipeline:
         if len(item["images"]) == 0:
             raise DropItem(f"Item has no images {item}")
         else:
-            if self.db[item["type"]].find_one_and_update(
-                    {"prod_id": item["prod_id"], "site": item["site"]},
-                    {"$set": item_as_dict}) is None:
+            if item["type"] == "bags_bs":
                 self.db[item["type"]].insert_one(item_as_dict)
+            else:
+                if self.db[item["type"]].find_one_and_update(
+                        {"prod_id": item["prod_id"], "site": item["site"]},
+                        {"$set": item_as_dict}) is None:
+                    self.db[item["type"]].insert_one(item_as_dict)
+
             return item
