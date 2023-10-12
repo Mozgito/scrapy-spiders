@@ -31,6 +31,7 @@ for site in image_cleaner.sites:
         db_image_name = "bags/" + site + "/" + image
         if db_image_name not in db_list:
             os.remove(image_cleaner.images_path + site + "/" + image)
+            image_cleaner.db["predictions"].delete_one({"image": image, "site": site, "type": "bags"})
             file_counter += 1
 
 image_cleaner.logger.info(f"{file_counter} images were deleted.")

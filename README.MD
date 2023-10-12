@@ -27,6 +27,4 @@ Example of spider sh file is here `products_crawler/cron/example.sh`
 5. Build and start MongoDB `docker compose up -d`
 6. Run spider
 ### TODO
-- [ ] Taobao spider
-- [ ] 1688 spider
 - [ ] Bestsellers list for Amazon, Temu and Shein

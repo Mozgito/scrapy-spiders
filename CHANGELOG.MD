@@ -1,8 +1,11 @@
 ## Release Notes
 
 ### Latest Changes
+
+### 1.5.3
 * 1688 scraper
 * Spiders improvements
+* Cleaner update (clean predictions)
 
 ### 1.5.2
 * Switch Temu to US

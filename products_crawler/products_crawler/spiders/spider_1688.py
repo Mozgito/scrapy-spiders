@@ -92,8 +92,11 @@ class Spider1688(scrapy.Spider):
         multiple_types = type_filter.get_by_text("多选")
         await self.click_element(page, multiple_types)
 
+        type_ids = ["1811:12204265", "1811:32991544", "1811:39512558", "1811:83821184", "1811:39886801"]
+
         for type_checkbox in await type_filter.get_by_role("checkbox").all():
-            await type_checkbox.set_checked(True)
+            if await type_checkbox.get_attribute("id") in type_ids:
+                await type_checkbox.set_checked(True)
 
         confirm_button = type_filter.get_by_text("确定")
         await self.click_element(page, confirm_button)
@@ -107,8 +110,9 @@ class Spider1688(scrapy.Spider):
 
     async def scroll_to_bottom(self, page):
         for i in range(8):
-            await page.wait_for_timeout(1500)
-            await page.evaluate("window.scrollBy(0, -1500)")
+            await page.wait_for_timeout(2000)
+            await page.evaluate("window.scrollBy(0, -3000)")
+            await page.wait_for_timeout(3500)
             await page.evaluate('window.scrollTo(0, document.body.scrollHeight)')
             await page.wait_for_timeout(1000)
 

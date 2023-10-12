@@ -46,12 +46,13 @@ async def errback(failure):
 class SpiderAmazon(scrapy.Spider):
     name = "spider_amzn"
     urls = [
-        "https://www.amazon.com/s?k=Women%27s+Shoulder+Handbags&i=fashion-womens-handbags&rh=n:3421075011,p_n_material_browse:17037742011|17037743011|3388479011",   # Shoulder bags
+        "https://www.amazon.com/s?k=Women%27s+Shoulder+Handbags&i=fashion-womens-handbags&rh=n:3421075011,p_n_material_browse:17037742011|17037743011|3388479011",  # Shoulder bags
         "https://www.amazon.com/s?keywords=Women%27s+Top-Handle+Handbags&i=fashion-womens-handbags&rh=n:2475901011,p_n_material_browse:17037742011|17037743011|3388479011",  # Top-Handle bags
         "https://www.amazon.com/s?keywords=Women%27s+Crossbody+Handbags&i=fashion-womens-handbags&rh=n:2475899011,p_n_material_browse:17037742011|17037743011|3388479011",  # Crossbody bags
         "https://www.amazon.com/s?i=fashion-womens-handbags&rh=n:16977746011,p_n_material_browse:17037742011|17037743011|3388479011",  # Tote bags
         "https://www.amazon.com/s?i=fashion-womens-handbags&rh=n:16977748011,p_n_material_browse:17037742011|17037743011|3388479011",  # Satchel bags
-        "https://www.amazon.com/s?i=fashion-womens-handbags&rh=n:16977747011,p_n_material_browse:17037742011|17037743011|3388479011"  # Hobo bags
+        "https://www.amazon.com/s?i=fashion-womens-handbags&rh=n:16977747011,p_n_material_browse:17037742011|17037743011|3388479011",  # Hobo bags
+        "https://www.amazon.com/s?i=fashion-womens-handbags&rh=n:16977745011,p_n_material_browse:17037742011|17037743011|3388479011"  # Backpacks
     ]
     custom_settings = {
         "PLAYWRIGHT_ABORT_REQUEST": abort_request,

@@ -14,10 +14,10 @@ async def errback(failure):
 class SpiderShopee(scrapy.Spider):
     name = "spider_shopee"
     urls = [
-        "https://shopee.ph/api/v4/recommend/recommend?bundle=category_landing_page&cat_level=2&catid=11021942",
-        "https://shopee.ph/api/v4/recommend/recommend?bundle=category_landing_page&cat_level=2&catid=11021948",
-        "https://shopee.ph/api/v4/recommend/recommend?bundle=category_landing_page&cat_level=2&catid=11021936",
-        # "https://shopee.ph/api/v4/recommend/recommend?bundle=category_landing_page&cat_level=2&catid=11021954"
+        "https://shopee.ph/api/v4/recommend/recommend?bundle=category_landing_page&cat_level=2&catid=11021942",  # Shoulder bags
+        "https://shopee.ph/api/v4/recommend/recommend?bundle=category_landing_page&cat_level=2&catid=11021948",  # Tote bags
+        "https://shopee.ph/api/v4/recommend/recommend?bundle=category_landing_page&cat_level=2&catid=11021936",  # Handbags
+        "https://shopee.ph/api/v4/recommend/recommend?bundle=category_landing_page&cat_level=2&catid=11021954"  # Backpacks
     ]
     custom_settings = {
         "PLAYWRIGHT_LAUNCH_OPTIONS": {"headless": True}
